@@ -1,0 +1,5 @@
+.idea
+ubuntu*
+vendor
+phinx.yml
+composer.lock

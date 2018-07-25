@@ -1,0 +1,14 @@
+{
+    "name": "dmitriy/translation-system",
+    "autoload": {
+        "psr-4": {
+          "": "src/"
+        },
+        "classmap": [
+            "app/Application.php"
+        ]
+    },
+    "require": {
+        "php": ">=7.0"
+    }
+}
