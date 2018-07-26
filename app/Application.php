@@ -15,12 +15,14 @@ class Application
         if (is_null($controller)) {
             $response = $this->defaultHandle();
         } else {
-            try {
-                $action = $this->getAction();
-                $response = $this->handle($controller, $action);
-            } catch (Exception $e) {
-                $response = $this->errorHandle($e->getMessage());
-            }
+            $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : null;
+            $params = isset($_REQUEST['params']) ? $_REQUEST['params'] : null;
+
+            if (is_null($action)) {
+                $response = $this->errorHandle('Action missed');
+            } else {
+                $response = $this->handle($controller, $action, $params);
+            };
         }
 
         return $response;
@@ -37,33 +39,13 @@ class Application
 
         $method = $action . 'Action';
         if (method_exists($controllerObj, $method)) {
-            $controllerObj->$method();
+            $controllerObj->$method($params);
         } else {
             $this->errorHandle('Action initialization error!');
             return false;
         }
 
         return true;
-
-        /*    if (!isset($controller) || $controller == "")
-                $controller = $this->defaultController;
-        $val = $controller . '.php';
-        $res = require_once($val);
-        if ($res != 1) {
-            echo("requested controller not found!");
-            return 0;
-        }
-        $controlClass = new $controller();
-        if ($controlClass == NULL) {
-            echo("Controller initialization error!");
-            return 0;
-        }
-        ob_start();
-        $controlClass->dispatchAction($action, &$this);
-        $this->dataBuf = ob_get_contents();
-        ob_end_clean();
-        echo($this->dataBuf);
-        return 1;*/
     }
 
     private function defaultHandle()
@@ -81,15 +63,5 @@ class Application
         $controllerObj->$method($params);
 
         return true;
-    }
-
-    private function getAction()
-    {
-        $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : null;
-        if (is_null($action)) {
-            throw new \Exception('Action missed');
-        }
-
-        return $action;
     }
 }

@@ -6,7 +6,8 @@ class TranslationController extends ControllerCommon
 {
     public function showPageAction()
     {
-        $this->render('translation.html');
+        $output['yeeeeep'] = 'УРААААА!';
+        $this->render('translation.php', $output);
     }
 
     public function showErrorPageAction($params = null)
