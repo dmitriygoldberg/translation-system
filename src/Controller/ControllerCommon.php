@@ -25,6 +25,11 @@ abstract class ControllerCommon
         $this->translationManager = new TranslationModel();
     }
 
+    /**
+     * Passes the parameters to the view and displays the page.
+     * @param string $fileName
+     * @param array $params
+     */
     protected function render($fileName, $params = [])
     {
         foreach ($params as $key => $value) {
@@ -34,6 +39,15 @@ abstract class ControllerCommon
         include_once($this->viewsPath . '/' . $fileName);
     }
 
+    /**
+     * Generates a response to the ajax-request.
+     * If the request is handled successfully, it returns an array:
+     * [success => true, data => array]
+     * Else:
+     * [success => false, errors => array]
+     * @param array $data
+     * @param bool $success
+     */
     protected function ajaxResponse($data = [], $success = true)
     {
         $word = $success ? 'data' : 'errors';

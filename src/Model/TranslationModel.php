@@ -11,6 +11,9 @@ class TranslationModel extends ModelCommon
         'content'
     ];
 
+    /**
+     * @return array
+     */
     public function getTranslationList()
     {
         $stmt = $this->pdo->query('SELECT * FROM `' . self::TABLE_NAME . '`');
@@ -23,6 +26,10 @@ class TranslationModel extends ModelCommon
         return $translationList;
     }
 
+    /**
+     * @param array $params
+     * @return array
+     */
     public function insertTranslation($params)
     {
         $errors = $this->validate(self::REQUIRED_FIELDS, $params);
@@ -50,6 +57,11 @@ class TranslationModel extends ModelCommon
         return $this->createResponse(['id' => $id]);
     }
 
+    /**
+     * @param integer $id
+     * @param array $params
+     * @return array
+     */
     public function updateTranslationById($id, $params)
     {
         $errors = $this->validate(self::REQUIRED_FIELDS, $params);
@@ -72,10 +84,13 @@ class TranslationModel extends ModelCommon
         }
 
         $stmt->execute(['id' => $id, 'keyId' => $keyId, 'langId' => $langId, 'content' => $content]);
-
         return $this->createResponse();
     }
 
+    /**
+     * @param integer $id
+     * @return array
+     */
     public function deleteTranslationById($id)
     {
         $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id';
@@ -87,7 +102,6 @@ class TranslationModel extends ModelCommon
         }
 
         $stmt->execute(['id' => $id]);
-
         return $this->createResponse();
     }
 }

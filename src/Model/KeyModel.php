@@ -9,6 +9,9 @@ class KeyModel extends ModelCommon
         'name'
     ];
 
+    /**
+     * @return array
+     */
     public function getKeyList()
     {
         $stmt = $this->pdo->query('SELECT * FROM `' . self::TABLE_NAME . '`');
@@ -21,6 +24,10 @@ class KeyModel extends ModelCommon
         return $keyList;
     }
 
+    /**
+     * @param array $params
+     * @return array
+     */
     public function insertKey($params)
     {
         $errors = $this->validate(self::REQUIRED_FIELDS, $params);
@@ -40,11 +47,15 @@ class KeyModel extends ModelCommon
         }
 
         $stmt->execute(['name' => $name]);
-
         $id = $this->pdo->lastInsertId();
         return $this->createResponse(['id' => $id]);
     }
 
+    /**
+     * @param integer $id
+     * @param array $params
+     * @return array
+     */
     public function updateKeyById($id, $params)
     {
         $errors = $this->validate(self::REQUIRED_FIELDS, $params);
@@ -64,10 +75,13 @@ class KeyModel extends ModelCommon
         }
 
         $stmt->execute(['id' => $id, 'name' => $name]);
-
         return $this->createResponse();
     }
 
+    /**
+     * @param integer $id
+     * @return array
+     */
     public function deleteKeyById($id)
     {
         $sql = 'DELETE FROM `' . self::TABLE_NAME . '` WHERE id = :id';
@@ -79,7 +93,6 @@ class KeyModel extends ModelCommon
         }
 
         $stmt->execute(['id' => $id]);
-
         return $this->createResponse();
     }
 }

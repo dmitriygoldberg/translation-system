@@ -8,6 +8,10 @@ class Application
     const DEFAULT_ACTION = 'showTranslationPage';
     const ERROR_ACTION = 'showErrorPage';
 
+    /**
+     * The entry point to the application. Accepts the incoming request and redirects the data.
+     * @return boolean
+     */
     public function handleHttp()
     {
         $controller = isset($_REQUEST['controller']) ? $_REQUEST['controller'] : null;
@@ -28,6 +32,16 @@ class Application
         return $response;
     }
 
+    /**
+     * Checks for the existence of the controller and the called action.
+     * If successful, it executes the controller action.
+     * Otherwise, it redirects the data to the error page.
+     * @param string $controller
+     * @param string $action
+     * @param array $params
+     *
+     * @return boolean
+     */
     private function handle($controller, $action, $params = null)
     {
         $controllerName = $controller . 'Controller';
@@ -48,11 +62,21 @@ class Application
         return true;
     }
 
+    /**
+     * It executes the action and controller by default.
+     * @return boolean
+     */
     private function defaultHandle()
     {
         return $this->handle(self::DEFAULT_CONTROLLER, self::DEFAULT_ACTION);
     }
 
+    /**
+     * In case of an error, redirects to 404 pages, displaying the contents of the error massage.
+     * @param array $errorMessage
+     *
+     * @return boolean
+     */
     private function errorHandle($errorMessage)
     {
         $params['error'] = $errorMessage;

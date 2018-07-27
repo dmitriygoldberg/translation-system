@@ -4,6 +4,9 @@ namespace Controller;
 
 class TranslationController extends ControllerCommon
 {
+    /**
+     * Displays translation.php
+     */
     public function showTranslationPageAction()
     {
         $langList = $this->langManager->getLanguageList();
@@ -21,12 +24,18 @@ class TranslationController extends ControllerCommon
         $this->render('translation.php', $output);
     }
 
+    /**
+     * @param array $params
+     */
     public function createKeyAction($params)
     {
         $response = $this->keyManager->insertKey($params);
         $this->ajaxResponse($response['data'], $response['success']);
     }
 
+    /**
+     * @param array $params
+     */
     public function editKeyAction($params)
     {
         if (!isset($params['id'])) {
@@ -40,6 +49,9 @@ class TranslationController extends ControllerCommon
         $this->ajaxResponse($response['data'], $response['success']);
     }
 
+    /**
+     * @param array $params
+     */
     public function deleteKeyAction($params)
     {
         if (!isset($params['id'])) {
@@ -52,12 +64,18 @@ class TranslationController extends ControllerCommon
         $this->ajaxResponse($response['data'], $response['success']);
     }
 
+    /**
+     * @param array $params
+     */
     public function createTranslationAction($params)
     {
         $response = $this->translationManager->insertTranslation($params);
         $this->ajaxResponse($response['data'], $response['success']);
     }
 
+    /**
+     * @param array $params
+     */
     public function editTranslationAction($params)
     {
         if (!isset($params['id'])) {
@@ -71,6 +89,9 @@ class TranslationController extends ControllerCommon
         $this->ajaxResponse($response['data'], $response['success']);
     }
 
+    /**
+     * @param array $params
+     */
     public function deleteTranslationAction($params)
     {
         if (!isset($params['id'])) {
@@ -83,6 +104,10 @@ class TranslationController extends ControllerCommon
         $this->ajaxResponse($response['data'], $response['success']);
     }
 
+    /**
+     * Displays 404.php
+     * @param array $params
+     */
     public function showErrorPageAction($params = [])
     {
         $output['error'] = isset($params['error']) ? $params['error'] : null;

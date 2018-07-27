@@ -4,6 +4,11 @@ namespace Controller;
 
 class ControllerFactory
 {
+    /**
+     * Creates an instance of the called class.
+     * @param string $controller
+     * @return mixed
+     */
     public static function factory($controller)
     {
         $className = "Controller\\{$controller}";

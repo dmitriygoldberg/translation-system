@@ -21,6 +21,7 @@ $(document).ready(function () {
         var confMsg = 'Удалить данный перевод?';
         confMsg += '\nВнимание! Это действие необратимо.';
         if (!confirm(confMsg)) return;
+
         var id = parseInt($("#translateModal input[name='id']").val());
         Translation.deleteTranslation(id);
     });
@@ -211,7 +212,6 @@ var Translation = {
         var id = parseInt($("#translateModal input[name='id']").val());
         if (id === 0) {
             this.save();
-
         } else {
             this.edit(id);
         }

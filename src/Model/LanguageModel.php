@@ -10,6 +10,9 @@ class LanguageModel extends ModelCommon
         'code'
     ];
 
+    /**
+     * @return array
+     */
     public function getLanguageList()
     {
         $stmt = $this->pdo->query('SELECT * FROM ' . self::TABLE_NAME);
@@ -22,6 +25,10 @@ class LanguageModel extends ModelCommon
         return $langList;
     }
 
+    /**
+     * @param array $params
+     * @return array
+     */
     public function insertLanguage($params)
     {
         $errors = $this->validate(self::REQUIRED_FIELDS, $params);
@@ -47,6 +54,11 @@ class LanguageModel extends ModelCommon
         return $this->createResponse(['id' => $id]);
     }
 
+    /**
+     * @param integer $id
+     * @param array $params
+     * @return array
+     */
     public function updateLanguageById($id, $params)
     {
         $errors = $this->validate(self::REQUIRED_FIELDS, $params);
@@ -67,10 +79,13 @@ class LanguageModel extends ModelCommon
         }
 
         $stmt->execute(['id' => $id, 'name' => $name, 'code' => $code]);
-
         return $this->createResponse();
     }
 
+    /**
+     * @param integer $id
+     * @return array
+     */
     public function deleteLanguageById($id)
     {
         $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id';
@@ -82,7 +97,6 @@ class LanguageModel extends ModelCommon
         }
 
         $stmt->execute(['id' => $id]);
-
         return $this->createResponse();
     }
 }

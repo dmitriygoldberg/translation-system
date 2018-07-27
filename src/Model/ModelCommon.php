@@ -20,6 +20,10 @@ abstract class ModelCommon
         $this->pdo = null;
     }
 
+    /**
+     * Creates a PDO connection to the database.
+     * @return mixed null|PDO
+     */
     private function connect()
     {
         if ($this->pdo) {
@@ -50,6 +54,12 @@ abstract class ModelCommon
         return $this->pdo;
     }
 
+    /**
+     * Checks for the presence of all required fields in the array with the parameters passed.
+     * @param array $fieldList
+     * @param array $params
+     * @return array
+     */
     protected function validate($fieldList, $params)
     {
         $errors = [];
@@ -62,11 +72,23 @@ abstract class ModelCommon
         return $errors;
     }
 
+    /**
+     * Creates a response. If the work with the database was successful returns:
+     * ['success' => true, 'data' => array]
+     *
+     * @param array $data
+     * @param bool $success
+     * @return array
+     */
     protected function createResponse($data = [], $success = true)
     {
         return ['success' => $success, 'data' => $data];
     }
 
+    /**
+     * Takes message about error.
+     * @return array
+     */
     protected function getPdoError()
     {
         //Return only driver-specific error message
