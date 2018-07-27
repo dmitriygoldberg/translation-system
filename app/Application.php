@@ -5,7 +5,7 @@ use Controller\ControllerFactory;
 class Application
 {
     const DEFAULT_CONTROLLER = 'Translation';
-    const DEFAULT_ACTION = 'showPage';
+    const DEFAULT_ACTION = 'showTranslationPage';
     const ERROR_ACTION = 'showErrorPage';
 
     public function handleHttp()

@@ -26,11 +26,11 @@
                         <input name="lang_id" type="text" value="" hidden>
                         <div class="form-group row">
                             <label class="col-sm-4">Название </label>
-                            <input class="col-sm-8 form-control" name="lang_name" type="text" value="">
+                            <input class="col-sm-8" name="lang_name" type="text" value="">
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4">Kод ISO 693-3 </label>
-                            <input class="col-sm-8 form-control" name="lang_code" type="text" value="">
+                            <input class="col-sm-8" name="lang_code" type="text" value="">
                         </div>
                     </div>
                 </div>

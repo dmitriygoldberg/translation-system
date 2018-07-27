@@ -22,14 +22,14 @@ class CreatingTables extends AbstractMigration
                 ['name'  => 'English', 'code'  => 'eng']])
             ->save();
 
-        $table = $this->table('key_translation');
+        $table = $this->table('translation');
         $table->addColumn('key_id', 'integer', ['null' => false])
             ->addColumn('lang_id', 'integer', ['null' => false])
-            ->addColumn('translation', 'text', ['null' => false])
+            ->addColumn('content', 'text', ['null' => false])
             ->addForeignKey('key_id', 'key', 'id',
-                ['delete'=> 'NO_ACTION', 'update'=> 'NO_ACTION'])
+                ['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
             ->addForeignKey('lang_id', 'language', 'id',
-                ['delete'=> 'NO_ACTION', 'update'=> 'NO_ACTION'])
+                ['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
             ->save();
     }
 
@@ -38,7 +38,7 @@ class CreatingTables extends AbstractMigration
      */
     public function down()
     {
-        $this->table('key_translation')->drop()->save();
+        $this->table('translation')->drop()->save();
         $this->table('language')->drop()->save();
         $this->table('key')->drop()->save();
     }

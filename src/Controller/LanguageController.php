@@ -16,12 +16,6 @@ class LanguageController extends ControllerCommon
         $this->render('404.php', $output);
     }
 
-    public function getResponseAction($params = null)
-    {
-        $data[] = 'Все работает!';
-        $this->ajaxResponse($data);
-    }
-
     public function createLanguageAction($params)
     {
         $response = $this->langManager->insertLanguage($params);

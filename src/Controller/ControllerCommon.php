@@ -3,6 +3,8 @@
 namespace Controller;
 
 use Model\LanguageModel;
+use Model\KeyModel;
+use Model\TranslationModel;
 
 abstract class ControllerCommon
 {
@@ -10,6 +12,8 @@ abstract class ControllerCommon
     private $viewsPath;
 
     protected $langManager;
+    protected $keyManager;
+    protected $translationManager;
 
     public function __construct()
     {
@@ -17,6 +21,8 @@ abstract class ControllerCommon
         $this->viewsPath = $this->rootPath . '/src/Resources/views';
 
         $this->langManager = new LanguageModel();
+        $this->keyManager = new KeyModel();
+        $this->translationManager = new TranslationModel();
     }
 
     protected function render($fileName, $params = [])
@@ -25,7 +31,7 @@ abstract class ControllerCommon
             ${$key} = $value;
         }
 
-        include_once ($this->viewsPath . '/' . $fileName);
+        include_once($this->viewsPath . '/' . $fileName);
     }
 
     protected function ajaxResponse($data = [], $success = true)

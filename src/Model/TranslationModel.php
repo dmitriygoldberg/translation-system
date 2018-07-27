@@ -2,27 +2,28 @@
 
 namespace Model;
 
-class LanguageModel extends ModelCommon
+class TranslationModel extends ModelCommon
 {
-    const TABLE_NAME = 'language';
+    const TABLE_NAME = 'translation';
     const REQUIRED_FIELDS = [
-        'name',
-        'code'
+        'keyId',
+        'langId',
+        'content'
     ];
 
-    public function getLanguageList()
+    public function getTranslationList()
     {
-        $stmt = $this->pdo->query('SELECT * FROM ' . self::TABLE_NAME);
+        $stmt = $this->pdo->query('SELECT * FROM `' . self::TABLE_NAME . '`');
 
-        $langList = [];
+        $translationList = [];
         while ($row = $stmt->fetch()) {
-            $langList[] = $row;
+            $translationList[] = $row;
         }
 
-        return $langList;
+        return $translationList;
     }
 
-    public function insertLanguage($params)
+    public function insertTranslation($params)
     {
         $errors = $this->validate(self::REQUIRED_FIELDS, $params);
 
@@ -30,10 +31,12 @@ class LanguageModel extends ModelCommon
             return $this->createResponse($errors, false);
         }
 
-        $name = $params['name'];
-        $code = $params['code'];
+        $keyId = $params['keyId'];
+        $langId = $params['langId'];
+        $content = $params['content'];
 
-        $sql = 'INSERT INTO ' . self::TABLE_NAME . ' (`name`, `code`) VALUES (:name, :code)';
+        $sql = 'INSERT INTO ' . self::TABLE_NAME . ' (`key_id`, `lang_id`, `content`) 
+            VALUES (:keyId, :langId, :content)';
         $stmt = $this->pdo->prepare($sql);
 
         if (!$stmt) {
@@ -41,13 +44,13 @@ class LanguageModel extends ModelCommon
             return $this->createResponse($errors, false);
         }
 
-        $stmt->execute(['name' => $name, 'code' => $code]);
+        $stmt->execute(['keyId' => $keyId, 'langId' => $langId, 'content' => $content]);
 
         $id = $this->pdo->lastInsertId();
         return $this->createResponse(['id' => $id]);
     }
 
-    public function updateLanguageById($id, $params)
+    public function updateTranslationById($id, $params)
     {
         $errors = $this->validate(self::REQUIRED_FIELDS, $params);
 
@@ -55,10 +58,12 @@ class LanguageModel extends ModelCommon
             return $this->createResponse($errors, false);
         }
 
-        $name = $params['name'];
-        $code = $params['code'];
+        $keyId = $params['keyId'];
+        $langId = $params['langId'];
+        $content = $params['content'];
 
-        $sql = 'UPDATE ' . self::TABLE_NAME . ' SET `name` = :name, `code` = :code WHERE `id` = :id';
+        $sql = 'UPDATE ' . self::TABLE_NAME . ' SET `key_id` = :keyId, `lang_id` = :langId, `content` = :content 
+            WHERE `id` = :id';
         $stmt = $this->pdo->prepare($sql);
 
         if (!$stmt) {
@@ -66,12 +71,12 @@ class LanguageModel extends ModelCommon
             return $this->createResponse($errors, false);
         }
 
-        $stmt->execute(['id' => $id, 'name' => $name, 'code' => $code]);
+        $stmt->execute(['id' => $id, 'keyId' => $keyId, 'langId' => $langId, 'content' => $content]);
 
         return $this->createResponse();
     }
 
-    public function deleteLanguageById($id)
+    public function deleteTranslationById($id)
     {
         $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id';
         $stmt = $this->pdo->prepare($sql);
