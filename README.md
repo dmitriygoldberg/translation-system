@@ -13,14 +13,14 @@ HTML стилизация - Bootstrap-3.3.7.
 Структура БД:
 >TABLE `key` (
 >	`id` int(11) NOT NULL AUTO_INCREMENT,
->	`name` varchar(255) NOT NULL
+>	`name` varchar(255) NOT NULL UNIQUE
 >	)
 >PRIMARY KEY (`id`)
 
 >TABLE `language` (
 >	`id` int(11) NOT NULL AUTO_INCREMENT,
 >	`name` varchar(255) NOT NULL
->	`code` varchar(3) NOT NULL
+>	`code` varchar(11) NOT NULL UNIQUE
 >	)
 >PRIMARY KEY (`id`)
 
@@ -29,6 +29,13 @@ HTML стилизация - Bootstrap-3.3.7.
 >	`key_id` int(11) NOT NULL FOREIGN KEY (`key` => `id`)
 >	`lang_id` int(11) NOT NULL FOREIGN KEY (`language` => `id`)
 >	`content` text NOT NULL
+>	)
+>PRIMARY KEY (`id`)
+
+>TABLE `default_languages` (
+>	`id` int(11) NOT NULL AUTO_INCREMENT,
+>	`name` varchar(255) NOT NULL
+>	`code` varchar(11) NOT NULL UNIQUE
 >	)
 >PRIMARY KEY (`id`)
 
