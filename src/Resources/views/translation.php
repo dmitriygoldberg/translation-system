@@ -77,46 +77,40 @@
     <h1>Управление переводами</h1>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-2">
-            <button class="btn btn-primary" id="keyAdd" data-toggle="modal" data-target="#keyModal">
-                <span class="glyphicon glyphicon-plus"></span>
-                Добавить ключ
-            </button>
-        </div>
-        <div class="col-md-10">
-            <table class="table table-bordered translation-table">
-                <thead>
-                <tr>
-                    <th>Ключ</th>
-                    <?php foreach ($langList as $lang): ?>
-                        <th class="language" id="<?= $lang['id'] ?>"><?= $lang['code'] ?></th>
-                    <?php endforeach; ?>
-                    <th>Действие</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($keyList as $key): ?>
-                    <tr id="<?= $key['id'] ?>">
-                        <td class="key_name"><?= $key['name'] ?></td>
-                        <?php foreach ($langList as $lang): ?>
-                            <?php if (isset($translationList[$key['id']][$lang['id']])): ?>
-                                <td class="translation" id="<?= $translationList[$key['id']][$lang['id']]['id'] ?>">
-                                    <?= $translationList[$key['id']][$lang['id']]['content'] ?></td>
-                            <?php else: ?>
-                                <td class="translation" id="0"></td>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                        <td>
-                            <i class="edit-btn fa fa-magic" aria-hidden="true"></i>
-                            <i class="rm-btn fa fa-times" aria-hidden="true"></i>
-                        </td>
-                    </tr>
+    <button class="btn btn-primary" id="keyAdd" data-toggle="modal" data-target="#keyModal">
+        <span class="glyphicon glyphicon-plus"></span>
+        Добавить ключ
+    </button>
+    <table class="table table-hover translation-table">
+        <thead>
+        <tr>
+            <th>Ключ</th>
+            <?php foreach ($langList as $lang): ?>
+                <th class="language" id="<?= $lang['id'] ?>"><?= $lang['code'] ?></th>
+            <?php endforeach; ?>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($keyList as $key): ?>
+            <tr id="<?= $key['id'] ?>">
+                <td class="key_name"><?= $key['name'] ?></td>
+                <?php foreach ($langList as $lang): ?>
+                    <?php if (isset($translationList[$key['id']][$lang['id']])): ?>
+                        <td class="translation" id="<?= $translationList[$key['id']][$lang['id']]['id'] ?>">
+                            <?= $translationList[$key['id']][$lang['id']]['content'] ?></td>
+                    <?php else: ?>
+                        <td class="translation" id="0"></td>
+                    <?php endif; ?>
                 <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+                <td>
+                    <i class="edit-btn fa fa-magic" aria-hidden="true"></i>
+                    <i class="rm-btn fa fa-trash" aria-hidden="true"></i>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
 </div>
 
 <script type="text/javascript" src="/src/Resources/js/translation.js"></script>

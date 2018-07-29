@@ -5,6 +5,7 @@ namespace Controller;
 use Model\LanguageModel;
 use Model\KeyModel;
 use Model\TranslationModel;
+use Model\DefaultLanguagesModel;
 
 abstract class ControllerCommon
 {
@@ -12,6 +13,7 @@ abstract class ControllerCommon
     private $viewsPath;
 
     protected $langManager;
+    protected $defaultLangManager;
     protected $keyManager;
     protected $translationManager;
 
@@ -23,6 +25,7 @@ abstract class ControllerCommon
         $this->langManager = new LanguageModel();
         $this->keyManager = new KeyModel();
         $this->translationManager = new TranslationModel();
+        $this->defaultLangManager = new DefaultLanguagesModel();
     }
 
     /**

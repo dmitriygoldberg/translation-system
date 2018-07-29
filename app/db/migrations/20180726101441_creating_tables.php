@@ -12,14 +12,16 @@ class CreatingTables extends AbstractMigration
     {
         $table = $this->table('key');
         $table->addColumn('name', 'string', ['limit' => 255, 'null' => false])
+            ->addIndex(['name'], ['unique' => true])
             ->save();
 
         // Use code by ISO639-3
         $table = $this->table('language');
         $table->addColumn('name', 'string', ['limit' => 255, 'null' => false])
-            ->addColumn('code', 'string', ['limit' => 3, 'null' => false])
-            ->insert([['name'  => 'Русский', 'code'  => 'rus'],
+            ->addColumn('code', 'string', ['limit' => 11, 'null' => false])
+            ->insert([['name'  => 'Russian', 'code'  => 'rus'],
                 ['name'  => 'English', 'code'  => 'eng']])
+            ->addIndex(['code'], ['unique' => true])
             ->save();
 
         $table = $this->table('translation');

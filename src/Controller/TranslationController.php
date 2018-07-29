@@ -29,6 +29,13 @@ class TranslationController extends ControllerCommon
      */
     public function createKeyAction($params)
     {
+        if (isset($params['name'])) {
+            if (!$this->validateKeyByName($params['name'])) {
+                $this->ajaxResponse(['Ключ ' . $params['name'] . ' уже существует'], false);
+                return;
+            }
+        }
+
         $response = $this->keyManager->insertKey($params);
         $this->ajaxResponse($response['data'], $response['success']);
     }
@@ -42,6 +49,13 @@ class TranslationController extends ControllerCommon
             $errors[] = 'Missing parameter "id"';
             $this->ajaxResponse($errors, false);
             return;
+        }
+
+        if (isset($params['name'])) {
+            if (!$this->validateKeyByName($params['name'], $params['id'])) {
+                $this->ajaxResponse(['Ключ ' . $params['name'] . ' уже существует'], false);
+                return;
+            }
         }
 
         $id = $params['id'];
@@ -112,5 +126,27 @@ class TranslationController extends ControllerCommon
     {
         $output['error'] = isset($params['error']) ? $params['error'] : null;
         $this->render('404.php', $output);
+    }
+
+    /**
+     * Checks for uniqueness of the name
+     * @param string $name
+     * @param integer $keyId
+     * @return bool
+     */
+    private function validateKeyByName($name, $keyId = null)
+    {
+        $keyList = $this->keyManager->getKeyListByCondition(['name' => $name]);
+        if (!empty($keyList)) {
+            if (!is_null($keyId)) {
+                foreach ($keyList as $key) {
+                    if ($key['id'] == $keyId) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        return true;
     }
 }

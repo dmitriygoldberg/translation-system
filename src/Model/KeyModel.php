@@ -25,6 +25,37 @@ class KeyModel extends ModelCommon
     }
 
     /**
+     * @param array $condition
+     * @return array
+     */
+    public function getKeyListByCondition($condition)
+    {
+        $conditionList = [];
+        foreach ($condition as $field => $value) {
+            if (is_array($value)) {
+                $conditionList[] = $field . " IN ('" . implode("', '", $value) . "')";
+            } else {
+                $conditionList[] = $field . " = '" . $value . "'";
+            }
+        }
+
+        $keyList = [];
+        if (!empty($conditionList)) {
+            $sql = "SELECT * " .
+                "FROM `" . self::TABLE_NAME . "` " .
+                "WHERE " . implode(' AND ', $conditionList);
+
+            $stmt = $this->pdo->query($sql);
+
+            while ($row = $stmt->fetch()) {
+                $keyList[] = $row;
+            }
+        }
+
+        return $keyList;
+    }
+
+    /**
      * @param array $params
      * @return array
      */

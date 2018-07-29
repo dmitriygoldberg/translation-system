@@ -81,6 +81,27 @@ $(document).ready(function () {
 
         $('#translateModal').modal();
     });
+
+    $(".translation-table").on('click', '.key_name', function (ev) {
+        var $tr = $(ev.target).closest('tr');
+        $tr.find('.edit-btn').trigger('click');
+    });
+
+    $(".translation-table").on('mouseover', '.key_name', function (ev) {
+        $(this).addClass('hover');
+    });
+
+    $(".translation-table").on('mouseout', '.key_name', function (ev) {
+        $(this).removeClass('hover');
+    });
+
+    $(".translation-table").on('mouseover', '.translation', function (ev) {
+        $(this).addClass('hover');
+    });
+
+    $(".translation-table").on('mouseout', '.translation', function (ev) {
+        $(this).removeClass('hover');
+    });
 });
 
 var editRow = null;
@@ -132,14 +153,19 @@ var Key = {
 
                     tr.append('<td>' +
                         '<i class="edit-btn fa fa-magic" aria-hidden="true"></i>' +
-                        '<i class="rm-btn fa fa-times" aria-hidden="true"></i>' +
+                        '<i class="rm-btn fa fa-trash" aria-hidden="true"></i>' +
                         '</td>');
 
                     $('.translation-table tr:last').after(tr);
                     $("#keyModal").modal('hide');
                 } else {
-                    alert(JSON.stringify(response.errors));
-                    console.log(response.errors);
+                    var errorMsg = '';
+                    $.each(response.errors, function (key, value) {
+                        errorMsg += value + '\n';
+                    });
+                    errorMsg = errorMsg.trim();
+                    alert(errorMsg);
+                    console.log(errorMsg);
                 }
             }
         });
@@ -166,8 +192,13 @@ var Key = {
                     editRow.find('.key_name').text(name);
                     $("#keyModal").modal('hide');
                 } else {
-                    alert(JSON.stringify(response.errors));
-                    console.log(response.errors);
+                    var errorMsg = '';
+                    $.each(response.errors, function (key, value) {
+                        errorMsg += value + '\n';
+                    });
+                    errorMsg = errorMsg.trim();
+                    alert(errorMsg);
+                    console.log(errorMsg);
                 }
             }
         });
@@ -191,8 +222,13 @@ var Key = {
                 if (response.success) {
                     editRow.remove();
                 } else {
-                    alert(JSON.stringify(response.errors));
-                    console.log(response.errors);
+                    var errorMsg = '';
+                    $.each(response.errors, function (key, value) {
+                        errorMsg += value + '\n';
+                    });
+                    errorMsg = errorMsg.trim();
+                    alert(errorMsg);
+                    console.log(errorMsg);
                 }
             }
         });
@@ -244,8 +280,13 @@ var Translation = {
                     editCell.text(content);
                     $("#translateModal").modal('hide');
                 } else {
-                    alert(JSON.stringify(response.errors));
-                    console.log(response.errors);
+                    var errorMsg = '';
+                    $.each(response.errors, function (key, value) {
+                        errorMsg += value + '\n';
+                    });
+                    errorMsg = errorMsg.trim();
+                    alert(errorMsg);
+                    console.log(errorMsg);
                 }
             }
         });
@@ -277,8 +318,13 @@ var Translation = {
                     editCell.text(content);
                     $("#translateModal").modal('hide');
                 } else {
-                    alert(JSON.stringify(response.errors));
-                    console.log(response.errors);
+                    var errorMsg = '';
+                    $.each(response.errors, function (key, value) {
+                        errorMsg += value + '\n';
+                    });
+                    errorMsg = errorMsg.trim();
+                    alert(errorMsg);
+                    console.log(errorMsg);
                 }
             }
         });
@@ -304,8 +350,13 @@ var Translation = {
                     editCell.text('');
                     $("#translateModal").modal('hide');
                 } else {
-                    alert(JSON.stringify(response.errors));
-                    console.log(response.errors);
+                    var errorMsg = '';
+                    $.each(response.errors, function (key, value) {
+                        errorMsg += value + '\n';
+                    });
+                    errorMsg = errorMsg.trim();
+                    alert(errorMsg);
+                    console.log(errorMsg);
                 }
             }
         });

@@ -35,6 +35,15 @@
                     </div>
                 </div>
                 <div class="modal-footer row">
+                    <div class="form-group">
+                        <label class="col-sm-6" style="text-align: left">Стандартные языки:</label>
+                        <select id="defaultLang" class="choose-good selectpicker form-control" title="Выберите язык" data-actions-box="true" data-live-search="true" >
+                            <?php foreach($defaultLangList as $key => $lang): ?>
+                                <option value='{"name":"<?=$lang['name'] ?>","code":"<?=$lang['code'] ?>"}'><?=$lang['name'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary js-save-btn" id = "modalDefault">Загрузить стандартный язык</button>
                     <button type="button" class="btn btn-success js-save-btn" id = "modalSuccess">Сохранить</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                 </div>
@@ -65,7 +74,7 @@
                     <th>ID</th>
                     <th>Язык</th>
                     <th>ISO 693-3</th>
-                    <th>Действие</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -76,7 +85,7 @@
                         <td class = "lang_code"><?=$lang['code'] ?></td>
                         <td>
                             <i class="edit-lang-btn fa fa-magic" aria-hidden="true"></i>
-                            <i class="rm-lang-btn fa fa-times" aria-hidden="true"></i>
+                            <i class="rm-lang-btn fa fa-trash" aria-hidden="true"></i>
                         </td>
                     </tr>
                 <?php endforeach; ?>

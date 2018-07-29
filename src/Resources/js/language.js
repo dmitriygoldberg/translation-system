@@ -12,6 +12,14 @@ $(document).ready(function () {
         }
     });
 
+    $("#modalDefault").on('click', function () {
+        if ($("#defaultLang").val() != '') {
+            var defaultLang = $.parseJSON($("#defaultLang").val());
+            $("input[name='lang_name']").val(defaultLang.name);
+            $("input[name='lang_code']").val(defaultLang.code);
+        }
+    });
+
     $(".lang-table").on('click', '.edit-lang-btn', function (ev) {
         var $tr = $(ev.target).closest('tr');
         var id = $tr.find('.lang_id').text().trim();
@@ -54,10 +62,37 @@ function validate() {
         return false;
     }
 
-    if ($("input[name='lang_code']").val().length > 3) {
-        alert('Код языка по ISO 693-3 должне быть не длинее 3 символов');
+    if ($("input[name='lang_code']").val().trim().length > 11) {
+        alert('Код языка не може привышать 11 символов');
         return false;
     }
+
+    var errorMsg = 'Код языка должен быть в одном из следующих форматов:\n"xxx", "xxx-xxxx", "xxx-xxxx-xx"';
+    var code = $("input[name='lang_code']").val().trim().split('-');
+    if (code.length > 3) {
+        alert(errorMsg);
+        return false;
+    }
+
+    if (typeof(code[2]) !== 'undefined') {
+        if (code[2].length !== 2) {
+            alert(errorMsg);
+            return false;
+        }
+    }
+
+    if (typeof(code[1]) !== 'undefined') {
+        if (code[1].length !== 4) {
+            alert(errorMsg);
+            return false;
+        }
+    }
+
+    if (code[0].length !== 3) {
+        alert(errorMsg);
+        return false;
+    }
+
     return true;
 }
 
@@ -103,14 +138,19 @@ function save() {
 
                 tr.append('<td>' +
                     '<i class="edit-lang-btn fa fa-magic" aria-hidden="true"></i>' +
-                    '<i class="rm-lang-btn fa fa-times" aria-hidden="true"></i>' +
+                    '<i class="rm-lang-btn fa fa-trash" aria-hidden="true"></i>' +
                     '</td>');
 
                 $('.lang-table tr:last').after(tr);
                 $("#langModal").modal('hide');
             } else {
-                alert(JSON.stringify(response.errors));
-                console.log(response.errors);
+                var errorMsg = '';
+                $.each(response.errors, function (key, value) {
+                    errorMsg += value + '\n';
+                });
+                errorMsg = errorMsg.trim();
+                alert(errorMsg);
+                console.log(errorMsg);
             }
         }
     });
@@ -140,8 +180,13 @@ function edit(id) {
                 editRow.find('.lang_code').text(code);
                 $("#langModal").modal('hide');
             } else {
-                alert(JSON.stringify(response.errors));
-                console.log(response.errors);
+                var errorMsg = '';
+                $.each(response.errors, function (key, value) {
+                    errorMsg += value + '\n';
+                });
+                errorMsg = errorMsg.trim();
+                alert(errorMsg);
+                console.log(errorMsg);
             }
         }
     });
@@ -165,8 +210,13 @@ function deleteLanguage(id) {
             if (response.success) {
                 editRow.remove();
             } else {
-                alert(JSON.stringify(response.errors));
-                console.log(response.errors);
+                var errorMsg = '';
+                $.each(response.errors, function (key, value) {
+                    errorMsg += value + '\n';
+                });
+                errorMsg = errorMsg.trim();
+                alert(errorMsg);
+                console.log(errorMsg);
             }
         }
     });

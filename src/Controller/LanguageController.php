@@ -10,7 +10,8 @@ class LanguageController extends ControllerCommon
     public function showLanguagePageAction()
     {
         $langList = $this->langManager->getLanguageList();
-        $this->render('language.php', ['langList' => $langList]);
+        $defaultLangList = $this->defaultLangManager->getDefaultLanguageList();
+        $this->render('language.php', ['langList' => $langList, 'defaultLangList' => $defaultLangList]);
     }
 
     /**
@@ -28,6 +29,13 @@ class LanguageController extends ControllerCommon
      */
     public function createLanguageAction($params)
     {
+        if (isset($params['code'])) {
+            if (!$this->validateLanguageByCode($params['code'])) {
+                $this->ajaxResponse(['Уже существует язык с кодом ' . $params['code']], false);
+                return;
+            }
+        }
+
         $response = $this->langManager->insertLanguage($params);
         $this->ajaxResponse($response['data'], $response['success']);
     }
@@ -41,6 +49,13 @@ class LanguageController extends ControllerCommon
             $errors[] = 'Missing parameter "id"';
             $this->ajaxResponse($errors, false);
             return;
+        }
+
+        if (isset($params['code'])) {
+            if (!$this->validateLanguageByCode($params['code'], $params['id'])) {
+                $this->ajaxResponse(['Уже существует язык с кодом ' . $params['code']], false);
+                return;
+            }
         }
 
         $id = $params['id'];
@@ -61,5 +76,27 @@ class LanguageController extends ControllerCommon
 
         $response = $this->langManager->deleteLanguageById($params['id']);
         $this->ajaxResponse($response['data'], $response['success']);
+    }
+
+    /**
+     * Checks for uniqueness of the code
+     * @param string $code
+     * @param integer $langId
+     * @return bool
+     */
+    private function validateLanguageByCode($code, $langId = null)
+    {
+        $langList = $this->langManager->getLanguageListByCondition(['code' => $code]);
+        if (!empty($langList)) {
+            if (!is_null($langId)) {
+                foreach ($langList as $lang) {
+                    if ($lang['id'] == $langId) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        return true;
     }
 }

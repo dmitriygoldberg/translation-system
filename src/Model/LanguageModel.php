@@ -26,6 +26,37 @@ class LanguageModel extends ModelCommon
     }
 
     /**
+     * @param array $condition
+     * @return array
+     */
+    public function getLanguageListByCondition($condition)
+    {
+        $conditionList = [];
+        foreach ($condition as $field => $value) {
+            if (is_array($value)) {
+                $conditionList[] = $field . " IN ('" . implode("', '", $value) . "')";
+            } else {
+                $conditionList[] = $field . " = '" . $value . "'";
+            }
+        }
+
+        $langList = [];
+        if (!empty($conditionList)) {
+            $sql = "SELECT * " .
+                "FROM " . self::TABLE_NAME . " " .
+                "WHERE " . implode(' AND ', $conditionList);
+
+            $stmt = $this->pdo->query($sql);
+
+            while ($row = $stmt->fetch()) {
+                $langList[] = $row;
+            }
+        }
+
+        return $langList;
+    }
+
+    /**
      * @param array $params
      * @return array
      */
